@@ -25,4 +25,5 @@ urlpatterns = [
     path('ml/input2', ml.views.input2),
     path('ml/output/<id>', ml.views.output),
     path('ml/statistics', ml.views.chart2),
+    path('ml/up', ml.views.up),
 ]

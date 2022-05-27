@@ -9,7 +9,26 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
 import joblib
+import pandas as pd
+import warnings
 
+warnings.filterwarnings(action='ignore')
+import re
+from nltk.tokenize import word_tokenize
+from sklearn.preprocessing import LabelEncoder
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import re
+from sklearn.feature_extraction.text import TfidfVectorizer
+from konlpy.tag import Okt
+
+okt = Okt()
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+import re  # 규칙을 가지고 필터링해주는
+import pickle
+import joblib
 
 def pred_module():
     
@@ -96,6 +115,44 @@ pred_tag(user)
 # ##### ['F' 'M']
 # ##### ['A.2O대' 'B.3O대' 'C.4O대' 'D.5O대' 'E.60대이상']
 
+def call_csv():
+    df = pd.read_csv('ai/cs_data1.csv')  # cs5로 하면 67 data1로하면 73
+    df.drop(columns="Unnamed: 0", inplace=True)
+    df.info()
+    # 라벨인코딩
+    encoder = LabelEncoder()
+    df['분류'].unique()
+    encoder.fit(df['분류'].unique())
+    target = encoder.transform(df['분류'])
 
+    df['분류'] = target
+    df['분류']
+    df['제목'] = df['제목'].apply(lambda x: re.sub(r'[^ ㄱ-ㅣ가-힣]+', "", str(x)))  # ㄱ-|가-힣 한글이 아닌것은 다 뺴라
+    return df
+def b(a):
+    df=call_csv()
+    file_name = 'ai/cs_Classification.pkl'
+    obj = joblib.load(file_name)
+    tfidf = TfidfVectorizer(ngram_range=(1, 2), min_df =3, max_df = 0.9)
+    X_train, X_test, y_train, y_test = train_test_split(df['제목'], df['분류'], test_size=0.2, random_state=42)
+    tfidf.fit(X_train)
+    train_tfidf_df = tfidf.transform(X_train)
+    st2 = re.sub(r'[^ ㄱ-ㅎ|가-힣]+', "", a)
+    st_tfidf_df = tfidf.transform([st2]) #벡터화
+    st2_predict = obj.predict(st_tfidf_df)
+    category=""
+    if(st2_predict== 0):
+        print(st2 , "->> 배송")
+        category="배송"
+    elif(st2_predict== 1):
+        print(st2 , "->> 상품관련")
+        category = "상품관련"
+    elif(st2_predict== 2):
+        print(st2 , "->> 주문")
+        category = "주문"
+    else :
+        print(st2 , "->> 회원")
+        category = "회원"
 
-
+    return category
+# 0-> 배송 1-> 상품관련 2-> 주문 3->회원

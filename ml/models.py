@@ -13,3 +13,4 @@ class Tag (models.Model):
 
     def __str__(self):
         return "holiday:"+str(self.holiday)+"week:"+str(self.week)+"time:"+str(self.time)+"gender:"+str(self.gender)+"age:"+str(self.age)+"size:"+str(self.size)+"tag:"+str(self.tag)
+
