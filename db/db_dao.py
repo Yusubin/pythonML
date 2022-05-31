@@ -3,11 +3,11 @@ import pymysql
 def update(vo):
     try:
         con = pymysql.connect(
-            host='localhost',
+            host='database-1.cgind9azzzrj.ap-northeast-2.rds.amazonaws.com',
             port=3306,
             user='root',
-            password='1234',
-            db='shop',
+            password='himedia00-=',
+            db='shop2',
             charset='utf8'
         )
         cur = con.cursor();
@@ -24,11 +24,11 @@ def update(vo):
 def read(service_idx):
     try:
         con = pymysql.connect(
-            host='localhost',
+            host='database-1.cgind9azzzrj.ap-northeast-2.rds.amazonaws.com',
             port=3306,
             user='root',
-            password='1234',
-            db='shop',
+            password='himedia00-=',
+            db='shop2',
             charset='utf8'
         )
         cur = con.cursor();
@@ -54,11 +54,11 @@ def read(service_idx):
 def readAll():
     try:
         conn = pymysql.connect(
-            host='localhost',
+            host='database-1.cgind9azzzrj.ap-northeast-2.rds.amazonaws.com',
             port=3306,
             user='root',
-            password='1234',
-            db='shop',
+            password='himedia00-=',
+            db='shop2',
             charset='utf8'
         )
 
@@ -87,11 +87,11 @@ def readAll():
 def readAll2():
     try:
         conn = pymysql.connect(
-            host='localhost',
+            host='database-1.cgind9azzzrj.ap-northeast-2.rds.amazonaws.com',
             port=3306,
             user='root',
-            password='1234',
-            db='shop',
+            password='himedia00-=',
+            db='shop2',
             charset='utf8'
         )
 
